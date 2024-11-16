@@ -35,9 +35,9 @@ passwordButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 -- Points Adjustment Tab (Hidden Initially)
 local sideTab = Instance.new("Frame", screenGui)
 sideTab.Size = UDim2.new(0.3, 0, 1, 0)
-sideTab.Position = UDim2.new(1, 0, 0, 0)
+sideTab.Position = UDim2.new(1, 0, 0, 0)  -- Position it offscreen initially
 sideTab.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-sideTab.Visible = false
+sideTab.Visible = false  -- Hide the side tab initially
 
 local pointsLabel = Instance.new("TextLabel", sideTab)
 pointsLabel.Size = UDim2.new(1, 0, 0.2, 0)
@@ -66,6 +66,9 @@ passwordButton.MouseButton1Click:Connect(function()
         -- Hide Password GUI and Show Points Tab
         passwordFrame.Visible = false
         sideTab.Visible = true
+
+        -- Slide the side tab into view
+        sideTab:TweenPosition(UDim2.new(0.7, 0, 0, 0), "Out", "Sine", 0.5, true)
     else
         passwordInput.Text = ""  -- Clear input if wrong password
         passwordInput.PlaceholderText = "Incorrect password. Try again."
@@ -77,9 +80,14 @@ setPointsButton.MouseButton1Click:Connect(function()
     local newPoints = tonumber(pointsInput.Text)
     if newPoints and newPoints > 0 then
         -- Assuming there’s a Points system you can adjust here
-        player.leaderstats.Points.Value = newPoints  -- Assuming Points is in leaderstats
-        pointsInput.Text = ""  -- Clear input
-        print("Points set to " .. newPoints)
+        if player:FindFirstChild("leaderstats") then
+            local pointsStat = player.leaderstats:FindFirstChild("Points")
+            if pointsStat then
+                pointsStat.Value = newPoints  -- Set the points
+                pointsInput.Text = ""  -- Clear input
+                print("Points set to " .. newPoints)
+            end
+        end
     else
         pointsInput.Text = ""
         pointsInput.PlaceholderText = "Enter a valid number"
