@@ -1,63 +1,30 @@
--- GUI Setup
-local player = game.Players.LocalPlayer
-local playerGui = player:WaitForChild("PlayerGui")
+-- GUI Setup (Side Tab for Setting Points)
 
--- Create Password GUI
-local screenGui = Instance.new("ScreenGui", playerGui)
-screenGui.Name = "PasswordHub"
-
--- Password Entry UI
-local passwordFrame = Instance.new("Frame", screenGui)
-passwordFrame.Size = UDim2.new(0.4, 0, 0.4, 0)
-passwordFrame.Position = UDim2.new(0.3, 0, 0.3, 0)
-passwordFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-
-local passwordLabel = Instance.new("TextLabel", passwordFrame)
-passwordLabel.Size = UDim2.new(1, 0, 0.2, 0)
-passwordLabel.Position = UDim2.new(0, 0, 0, 0)
-passwordLabel.Text = "Enter Password"
-passwordLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-passwordLabel.TextScaled = true
-
-local passwordInput = Instance.new("TextBox", passwordFrame)
-passwordInput.Size = UDim2.new(0.8, 0, 0.2, 0)
-passwordInput.Position = UDim2.new(0.1, 0, 0.3, 0)
-passwordInput.PlaceholderText = "Enter password"
-passwordInput.TextColor3 = Color3.fromRGB(0, 0, 0)
-passwordInput.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-
-local passwordButton = Instance.new("TextButton", passwordFrame)
-passwordButton.Size = UDim2.new(0.8, 0, 0.2, 0)
-passwordButton.Position = UDim2.new(0.1, 0, 0.6, 0)
-passwordButton.Text = "Submit"
-passwordButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-
--- Points Adjustment Tab (Hidden Initially)
 local sideTab = Instance.new("Frame", screenGui)
 sideTab.Size = UDim2.new(0.3, 0, 1, 0)
-sideTab.Position = UDim2.new(1, 0, 0, 0)  -- Position it offscreen initially
+sideTab.Position = UDim2.new(1, 0, 0, 0)  -- Position offscreen initially
 sideTab.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-sideTab.Visible = false  -- Hide the side tab initially
+sideTab.Visible = false  -- Hidden initially
 
 local pointsLabel = Instance.new("TextLabel", sideTab)
 pointsLabel.Size = UDim2.new(1, 0, 0.2, 0)
-pointsLabel.Text = "Set Bananas & Snowflakes"
+pointsLabel.Text = "Set Kills & Total Kills"
 pointsLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 pointsLabel.TextScaled = true
 
-local bananasInput = Instance.new("TextBox", sideTab)
-bananasInput.Size = UDim2.new(0.8, 0, 0.2, 0)
-bananasInput.Position = UDim2.new(0.1, 0, 0.3, 0)
-bananasInput.PlaceholderText = "Enter Bananas"
-bananasInput.TextColor3 = Color3.fromRGB(0, 0, 0)
-bananasInput.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+local killsInput = Instance.new("TextBox", sideTab)
+killsInput.Size = UDim2.new(0.8, 0, 0.2, 0)
+killsInput.Position = UDim2.new(0.1, 0, 0.3, 0)
+killsInput.PlaceholderText = "Enter Kills"
+killsInput.TextColor3 = Color3.fromRGB(0, 0, 0)
+killsInput.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 
-local snowflakesInput = Instance.new("TextBox", sideTab)
-snowflakesInput.Size = UDim2.new(0.8, 0, 0.2, 0)
-snowflakesInput.Position = UDim2.new(0.1, 0, 0.6, 0)
-snowflakesInput.PlaceholderText = "Enter Snowflakes"
-snowflakesInput.TextColor3 = Color3.fromRGB(0, 0, 0)
-snowflakesInput.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+local totalKillsInput = Instance.new("TextBox", sideTab)
+totalKillsInput.Size = UDim2.new(0.8, 0, 0.2, 0)
+totalKillsInput.Position = UDim2.new(0.1, 0, 0.6, 0)
+totalKillsInput.PlaceholderText = "Enter Total Kills"
+totalKillsInput.TextColor3 = Color3.fromRGB(0, 0, 0)
+totalKillsInput.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 
 local setPointsButton = Instance.new("TextButton", sideTab)
 setPointsButton.Size = UDim2.new(0.8, 0, 0.2, 0)
@@ -66,8 +33,6 @@ setPointsButton.Text = "Set Points"
 setPointsButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 
 -- Password Validation
-local correctPassword = "password123"  -- Set your password here
-
 passwordButton.MouseButton1Click:Connect(function()
     if passwordInput.Text == correctPassword then
         -- Hide Password GUI and Show Points Tab
@@ -82,86 +47,60 @@ passwordButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- Points Set Functionality
+-- Set Kills and Total Kills and Check Door Access
 setPointsButton.MouseButton1Click:Connect(function()
-    local bananas = tonumber(bananasInput.Text)
-    local snowflakes = tonumber(snowflakesInput.Text)
+    local kills = tonumber(killsInput.Text)
+    local totalKills = tonumber(totalKillsInput.Text)
 
-    -- Check for valid Bananas input
-    if bananas and bananas >= 0 then
-        -- Ensure leaderstats folder exists and Bananas stat exists
+    -- Check if valid Kills and Total Kills input
+    if kills and kills >= 0 then
+        -- Set Kills (visual update)
         if player:FindFirstChild("leaderstats") then
             local leaderstats = player.leaderstats
-            local bananasStat = leaderstats:FindFirstChild("Bananas")
-
-            if bananasStat then
-                bananasStat.Value = bananas  -- Set the Bananas
-                bananasInput.Text = ""  -- Clear input
-                print("Bananas set to " .. bananas)
-            else
-                -- If Bananas stat is missing, print an error
-                bananasInput.Text = ""
-                bananasInput.PlaceholderText = "No Bananas stat found"
-                print("Error: No Bananas stat found.")
+            local killsStat = leaderstats:FindFirstChild("Kills")
+            if killsStat then
+                killsStat.Value = kills
+                killsInput.Text = ""  -- Clear input
             end
-        else
-            -- If leaderstats is missing, print an error
-            bananasInput.Text = ""
-            bananasInput.PlaceholderText = "No leaderstats found"
-            print("Error: No leaderstats found.")
         end
-    else
-        bananasInput.Text = ""
-        bananasInput.PlaceholderText = "Enter a valid number for Bananas"
-        print("Invalid Bananas input.")
     end
 
-    -- Check for valid Snowflakes input
-    if snowflakes and snowflakes >= 0 then
-        -- Ensure Snowflakes stat exists
+    if totalKills and totalKills >= 0 then
+        -- Set Total Kills (visual update)
         if player:FindFirstChild("leaderstats") then
             local leaderstats = player.leaderstats
-            local snowflakesStat = leaderstats:FindFirstChild("Snowflakes")
-
-            if snowflakesStat then
-                snowflakesStat.Value = snowflakes  -- Set the Snowflakes
-                snowflakesInput.Text = ""  -- Clear input
-                print("Snowflakes set to " .. snowflakes)
-            else
-                -- If Snowflakes stat is missing, print an error
-                snowflakesInput.Text = ""
-                snowflakesInput.PlaceholderText = "No Snowflakes stat found"
-                print("Error: No Snowflakes stat found.")
+            local totalKillsStat = leaderstats:FindFirstChild("Total Kills")
+            if totalKillsStat then
+                totalKillsStat.Value = totalKills
+                totalKillsInput.Text = ""  -- Clear input
             end
+        end
+    end
+
+    -- Check if player has enough Kills and Total Kills to open the door
+    local requiredKills = 50  -- Set the required amount of Kills
+    local requiredTotalKills = 100  -- Set the required amount of Total Kills
+
+    local killsStat = player.leaderstats and player.leaderstats:FindFirstChild("Kills")
+    local totalKillsStat = player.leaderstats and player.leaderstats:FindFirstChild("Total Kills")
+
+    if killsStat and totalKillsStat and killsStat.Value >= requiredKills and totalKillsStat.Value >= requiredTotalKills then
+        -- Open the door (change transparency or position)
+        local door = workspace:FindFirstChild("GP Door") or workspace:FindFirstChild("door")  -- Check for both possible names
+        if door then
+            -- Option 1: Move the door (or make it disappear)
+            door.Position = door.Position + Vector3.new(0, 10, 0)  -- Move it up to simulate "opening"
+            
+            -- Option 2: Change transparency (make the door invisible)
+            door.Transparency = 1
+            door.CanCollide = false  -- Disable collision so the player can walk through it
+            
+            print("Door opened!")
         else
-            -- If leaderstats is missing, print an error
-            snowflakesInput.Text = ""
-            snowflakesInput.PlaceholderText = "No leaderstats found"
-            print("Error: No leaderstats found.")
+            print("Door not found!")
         end
     else
-        snowflakesInput.Text = ""
-        snowflakesInput.PlaceholderText = "Enter a valid number for Snowflakes"
-        print("Invalid Snowflakes input.")
+        -- Inform the player they don't have enough points
+        print("Not enough points. You need at least " .. requiredKills .. " Kills and " .. requiredTotalKills .. " Total Kills to open the door.")
     end
-end)
-
--- Ensure leaderstats and Bananas & Snowflakes are created for the player when they join
-game.Players.PlayerAdded:Connect(function(player)
-    -- Create leaderstats folder for the player
-    local leaderstats = Instance.new("Folder")
-    leaderstats.Name = "leaderstats"
-    leaderstats.Parent = player
-
-    -- Create the Bananas stat
-    local bananas = Instance.new("IntValue")
-    bananas.Name = "Bananas"
-    bananas.Value = 0  -- Default Bananas, you can set this to any value
-    bananas.Parent = leaderstats
-
-    -- Create the Snowflakes stat
-    local snowflakes = Instance.new("IntValue")
-    snowflakes.Name = "Snowflakes"
-    snowflakes.Value = 0  -- Default Snowflakes, you can set this to any value
-    snowflakes.Parent = leaderstats
 end)
