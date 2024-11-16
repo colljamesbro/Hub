@@ -41,20 +41,27 @@ sideTab.Visible = false  -- Hide the side tab initially
 
 local pointsLabel = Instance.new("TextLabel", sideTab)
 pointsLabel.Size = UDim2.new(1, 0, 0.2, 0)
-pointsLabel.Text = "Set Your Points"
+pointsLabel.Text = "Set Bananas & Snowflakes"
 pointsLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 pointsLabel.TextScaled = true
 
-local pointsInput = Instance.new("TextBox", sideTab)
-pointsInput.Size = UDim2.new(0.8, 0, 0.2, 0)
-pointsInput.Position = UDim2.new(0.1, 0, 0.3, 0)
-pointsInput.PlaceholderText = "Enter points"
-pointsInput.TextColor3 = Color3.fromRGB(0, 0, 0)
-pointsInput.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+local bananasInput = Instance.new("TextBox", sideTab)
+bananasInput.Size = UDim2.new(0.8, 0, 0.2, 0)
+bananasInput.Position = UDim2.new(0.1, 0, 0.3, 0)
+bananasInput.PlaceholderText = "Enter Bananas"
+bananasInput.TextColor3 = Color3.fromRGB(0, 0, 0)
+bananasInput.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+
+local snowflakesInput = Instance.new("TextBox", sideTab)
+snowflakesInput.Size = UDim2.new(0.8, 0, 0.2, 0)
+snowflakesInput.Position = UDim2.new(0.1, 0, 0.6, 0)
+snowflakesInput.PlaceholderText = "Enter Snowflakes"
+snowflakesInput.TextColor3 = Color3.fromRGB(0, 0, 0)
+snowflakesInput.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 
 local setPointsButton = Instance.new("TextButton", sideTab)
 setPointsButton.Size = UDim2.new(0.8, 0, 0.2, 0)
-setPointsButton.Position = UDim2.new(0.1, 0, 0.6, 0)
+setPointsButton.Position = UDim2.new(0.1, 0, 0.9, 0)
 setPointsButton.Text = "Set Points"
 setPointsButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 
@@ -77,19 +84,76 @@ end)
 
 -- Points Set Functionality
 setPointsButton.MouseButton1Click:Connect(function()
-    local newPoints = tonumber(pointsInput.Text)
-    if newPoints and newPoints > 0 then
-        -- Assuming there’s a Points system you can adjust here
+    local bananas = tonumber(bananasInput.Text)
+    local snowflakes = tonumber(snowflakesInput.Text)
+
+    if bananas and bananas >= 0 then
+        -- Ensure leaderstats folder exists and Bananas stat exists
         if player:FindFirstChild("leaderstats") then
-            local pointsStat = player.leaderstats:FindFirstChild("Points")
-            if pointsStat then
-                pointsStat.Value = newPoints  -- Set the points
-                pointsInput.Text = ""  -- Clear input
-                print("Points set to " .. newPoints)
+            local leaderstats = player.leaderstats
+            local bananasStat = leaderstats:FindFirstChild("Bananas")
+
+            if bananasStat then
+                bananasStat.Value = bananas  -- Set the Bananas
+                bananasInput.Text = ""  -- Clear input
+                print("Bananas set to " .. bananas)
+            else
+                -- If Bananas stat is missing, print an error
+                bananasInput.Text = ""
+                bananasInput.PlaceholderText = "No Bananas stat found"
             end
+        else
+            -- If leaderstats is missing, print an error
+            bananasInput.Text = ""
+            bananasInput.PlaceholderText = "No leaderstats found"
         end
     else
-        pointsInput.Text = ""
-        pointsInput.PlaceholderText = "Enter a valid number"
+        bananasInput.Text = ""
+        bananasInput.PlaceholderText = "Enter a valid number for Bananas"
     end
+
+    if snowflakes and snowflakes >= 0 then
+        -- Ensure Snowflakes stat exists
+        if player:FindFirstChild("leaderstats") then
+            local leaderstats = player.leaderstats
+            local snowflakesStat = leaderstats:FindFirstChild("Snowflakes")
+
+            if snowflakesStat then
+                snowflakesStat.Value = snowflakes  -- Set the Snowflakes
+                snowflakesInput.Text = ""  -- Clear input
+                print("Snowflakes set to " .. snowflakes)
+            else
+                -- If Snowflakes stat is missing, print an error
+                snowflakesInput.Text = ""
+                snowflakesInput.PlaceholderText = "No Snowflakes stat found"
+            end
+        else
+            -- If leaderstats is missing, print an error
+            snowflakesInput.Text = ""
+            snowflakesInput.PlaceholderText = "No leaderstats found"
+        end
+    else
+        snowflakesInput.Text = ""
+        snowflakesInput.PlaceholderText = "Enter a valid number for Snowflakes"
+    end
+end)
+
+-- Ensure leaderstats and Bananas & Snowflakes are created for the player when they join
+game.Players.PlayerAdded:Connect(function(player)
+    -- Create leaderstats folder for the player
+    local leaderstats = Instance.new("Folder")
+    leaderstats.Name = "leaderstats"
+    leaderstats.Parent = player
+
+    -- Create the Bananas stat
+    local bananas = Instance.new("IntValue")
+    bananas.Name = "Bananas"
+    bananas.Value = 0  -- Default Bananas, you can set this to any value
+    bananas.Parent = leaderstats
+
+    -- Create the Snowflakes stat
+    local snowflakes = Instance.new("IntValue")
+    snowflakes.Name = "Snowflakes"
+    snowflakes.Value = 0  -- Default Snowflakes, you can set this to any value
+    snowflakes.Parent = leaderstats
 end)
