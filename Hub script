@@ -87,6 +87,7 @@ setPointsButton.MouseButton1Click:Connect(function()
     local bananas = tonumber(bananasInput.Text)
     local snowflakes = tonumber(snowflakesInput.Text)
 
+    -- Check for valid Bananas input
     if bananas and bananas >= 0 then
         -- Ensure leaderstats folder exists and Bananas stat exists
         if player:FindFirstChild("leaderstats") then
@@ -101,17 +102,21 @@ setPointsButton.MouseButton1Click:Connect(function()
                 -- If Bananas stat is missing, print an error
                 bananasInput.Text = ""
                 bananasInput.PlaceholderText = "No Bananas stat found"
+                print("Error: No Bananas stat found.")
             end
         else
             -- If leaderstats is missing, print an error
             bananasInput.Text = ""
             bananasInput.PlaceholderText = "No leaderstats found"
+            print("Error: No leaderstats found.")
         end
     else
         bananasInput.Text = ""
         bananasInput.PlaceholderText = "Enter a valid number for Bananas"
+        print("Invalid Bananas input.")
     end
 
+    -- Check for valid Snowflakes input
     if snowflakes and snowflakes >= 0 then
         -- Ensure Snowflakes stat exists
         if player:FindFirstChild("leaderstats") then
@@ -126,15 +131,18 @@ setPointsButton.MouseButton1Click:Connect(function()
                 -- If Snowflakes stat is missing, print an error
                 snowflakesInput.Text = ""
                 snowflakesInput.PlaceholderText = "No Snowflakes stat found"
+                print("Error: No Snowflakes stat found.")
             end
         else
             -- If leaderstats is missing, print an error
             snowflakesInput.Text = ""
             snowflakesInput.PlaceholderText = "No leaderstats found"
+            print("Error: No leaderstats found.")
         end
     else
         snowflakesInput.Text = ""
         snowflakesInput.PlaceholderText = "Enter a valid number for Snowflakes"
+        print("Invalid Snowflakes input.")
     end
 end)
 
