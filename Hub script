@@ -41,21 +41,21 @@ sideTab.Visible = false  -- Hide the side tab initially
 
 local pointsLabel = Instance.new("TextLabel", sideTab)
 pointsLabel.Size = UDim2.new(1, 0, 0.2, 0)
-pointsLabel.Text = "Set Diamonds & Rank"
+pointsLabel.Text = "Set 💎Diamonds & ⭐Rank"
 pointsLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 pointsLabel.TextScaled = true
 
 local diamondsInput = Instance.new("TextBox", sideTab)
 diamondsInput.Size = UDim2.new(0.8, 0, 0.2, 0)
 diamondsInput.Position = UDim2.new(0.1, 0, 0.3, 0)
-diamondsInput.PlaceholderText = "Enter Diamonds"
+diamondsInput.PlaceholderText = "Enter 💎Diamonds"
 diamondsInput.TextColor3 = Color3.fromRGB(0, 0, 0)
 diamondsInput.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 
 local rankInput = Instance.new("TextBox", sideTab)
 rankInput.Size = UDim2.new(0.8, 0, 0.2, 0)
 rankInput.Position = UDim2.new(0.1, 0, 0.6, 0)
-rankInput.PlaceholderText = "Enter Rank"
+rankInput.PlaceholderText = "Enter ⭐Rank"
 rankInput.TextColor3 = Color3.fromRGB(0, 0, 0)
 rankInput.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 
@@ -89,20 +89,20 @@ setPointsButton.MouseButton1Click:Connect(function()
 
     -- Check for valid Diamonds input
     if diamonds and diamonds >= 0 then
-        -- Ensure leaderstats folder exists and Diamonds stat exists
+        -- Ensure leaderstats folder exists and 💎Diamonds stat exists
         if player:FindFirstChild("leaderstats") then
             local leaderstats = player.leaderstats
-            local diamondsStat = leaderstats:FindFirstChild("Diamonds")
+            local diamondsStat = leaderstats:FindFirstChild("💎Diamonds")
 
             if diamondsStat then
-                diamondsStat.Value = diamonds  -- Set the Diamonds
+                diamondsStat.Value = diamonds  -- Set the 💎Diamonds
                 diamondsInput.Text = ""  -- Clear input
-                print("Diamonds set to " .. diamonds)
+                print("💎Diamonds set to " .. diamonds)
             else
-                -- If Diamonds stat is missing, print an error
+                -- If 💎Diamonds stat is missing, print an error
                 diamondsInput.Text = ""
-                diamondsInput.PlaceholderText = "No Diamonds stat found"
-                print("Error: No Diamonds stat found.")
+                diamondsInput.PlaceholderText = "No 💎Diamonds stat found"
+                print("Error: No 💎Diamonds stat found.")
             end
         else
             -- If leaderstats is missing, print an error
@@ -112,26 +112,26 @@ setPointsButton.MouseButton1Click:Connect(function()
         end
     else
         diamondsInput.Text = ""
-        diamondsInput.PlaceholderText = "Enter a valid number for Diamonds"
-        print("Invalid Diamonds input.")
+        diamondsInput.PlaceholderText = "Enter a valid number for 💎Diamonds"
+        print("Invalid 💎Diamonds input.")
     end
 
-    -- Check for valid Rank input
+    -- Check for valid ⭐Rank input
     if rank and rank >= 0 then
-        -- Ensure Rank stat exists
+        -- Ensure ⭐Rank stat exists
         if player:FindFirstChild("leaderstats") then
             local leaderstats = player.leaderstats
-            local rankStat = leaderstats:FindFirstChild("Rank")
+            local rankStat = leaderstats:FindFirstChild("⭐Rank")
 
             if rankStat then
-                rankStat.Value = rank  -- Set the Rank
+                rankStat.Value = rank  -- Set the ⭐Rank
                 rankInput.Text = ""  -- Clear input
-                print("Rank set to " .. rank)
+                print("⭐Rank set to " .. rank)
             else
-                -- If Rank stat is missing, print an error
+                -- If ⭐Rank stat is missing, print an error
                 rankInput.Text = ""
-                rankInput.PlaceholderText = "No Rank stat found"
-                print("Error: No Rank stat found.")
+                rankInput.PlaceholderText = "No ⭐Rank stat found"
+                print("Error: No ⭐Rank stat found.")
             end
         else
             -- If leaderstats is missing, print an error
@@ -141,27 +141,27 @@ setPointsButton.MouseButton1Click:Connect(function()
         end
     else
         rankInput.Text = ""
-        rankInput.PlaceholderText = "Enter a valid number for Rank"
-        print("Invalid Rank input.")
+        rankInput.PlaceholderText = "Enter a valid number for ⭐Rank"
+        print("Invalid ⭐Rank input.")
     end
 end)
 
--- Ensure leaderstats and Diamonds & Rank are created for the player when they join
+-- Ensure leaderstats and 💎Diamonds & ⭐Rank are created for the player when they join
 game.Players.PlayerAdded:Connect(function(player)
     -- Create leaderstats folder for the player
     local leaderstats = Instance.new("Folder")
     leaderstats.Name = "leaderstats"
     leaderstats.Parent = player
 
-    -- Create the Diamonds stat
+    -- Create the 💎Diamonds stat
     local diamonds = Instance.new("IntValue")
-    diamonds.Name = "Diamonds"
-    diamonds.Value = 0  -- Default Diamonds, you can set this to any value
+    diamonds.Name = "💎Diamonds"
+    diamonds.Value = 0  -- Default 💎Diamonds, you can set this to any value
     diamonds.Parent = leaderstats
 
-    -- Create the Rank stat
+    -- Create the ⭐Rank stat
     local rank = Instance.new("IntValue")
-    rank.Name = "Rank"
-    rank.Value = 0  -- Default Rank, you can set this to any value
+    rank.Name = "⭐Rank"
+    rank.Value = 0  -- Default ⭐Rank, you can set this to any value
     rank.Parent = leaderstats
 end)
