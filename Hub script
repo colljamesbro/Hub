@@ -1,121 +1,87 @@
-local Players = game:GetService("Players")
-local Teams = game:GetService("Teams")
-local LocalPlayer = Players.LocalPlayer
+-- GUI Setup
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
 
--- Variables
-local ultraInstinctActive = false
-local autoLockActive = false
-local espActive = false
-local password = "Colljamesbro"
+-- Create Password GUI
+local screenGui = Instance.new("ScreenGui", playerGui)
+screenGui.Name = "PasswordHub"
 
--- Create UI
-local screenGui = Instance.new("ScreenGui")
-screenGui.Parent = game:GetService("CoreGui")
-screenGui.Name = "FancyUltraInstinctGui"
+-- Password Entry UI
+local passwordFrame = Instance.new("Frame", screenGui)
+passwordFrame.Size = UDim2.new(0.4, 0, 0.4, 0)
+passwordFrame.Position = UDim2.new(0.3, 0, 0.3, 0)
+passwordFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 
--- Password Input Frame
-local passwordFrame = Instance.new("Frame")
-passwordFrame.Parent = screenGui
-passwordFrame.Size = UDim2.new(0, 300, 0, 150)
-passwordFrame.Position = UDim2.new(0.5, -150, 0.5, -75)
-passwordFrame.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
-passwordFrame.Visible = true
+local passwordLabel = Instance.new("TextLabel", passwordFrame)
+passwordLabel.Size = UDim2.new(1, 0, 0.2, 0)
+passwordLabel.Position = UDim2.new(0, 0, 0, 0)
+passwordLabel.Text = "Enter Password"
+passwordLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+passwordLabel.TextScaled = true
 
-local passwordLabel = Instance.new("TextLabel")
-passwordLabel.Parent = passwordFrame
-passwordLabel.Size = UDim2.new(1, 0, 0.3, 0)
-passwordLabel.Position = UDim2.new(0, 0, 0, 10)
-passwordLabel.Text = "Enter Password:"
-passwordLabel.TextSize = 20
-passwordLabel.Font = Enum.Font.SourceSans
-passwordLabel.TextColor3 = Color3.new(1, 1, 1)
-passwordLabel.BackgroundTransparency = 1
-
-local passwordInput = Instance.new("TextBox")
-passwordInput.Parent = passwordFrame
+local passwordInput = Instance.new("TextBox", passwordFrame)
 passwordInput.Size = UDim2.new(0.8, 0, 0.2, 0)
-passwordInput.Position = UDim2.new(0.1, 0, 0.4, 0)
-passwordInput.Text = ""
-passwordInput.PlaceholderText = "Enter password here"
-passwordInput.Font = Enum.Font.SourceSans
-passwordInput.TextSize = 18
-passwordInput.TextColor3 = Color3.new(0, 0, 0)
-passwordInput.BackgroundColor3 = Color3.new(1, 1, 1)
+passwordInput.Position = UDim2.new(0.1, 0, 0.3, 0)
+passwordInput.PlaceholderText = "Enter password"
+passwordInput.TextColor3 = Color3.fromRGB(0, 0, 0)
+passwordInput.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 
-local submitButton = Instance.new("TextButton")
-submitButton.Parent = passwordFrame
-submitButton.Size = UDim2.new(0.4, 0, 0.2, 0)
-submitButton.Position = UDim2.new(0.3, 0, 0.7, 0)
-submitButton.Text = "Submit"
-submitButton.Font = Enum.Font.SourceSans
-submitButton.TextSize = 18
-submitButton.TextColor3 = Color3.new(1, 1, 1)
-submitButton.BackgroundColor3 = Color3.new(0.3, 0.3, 0.3)
+local passwordButton = Instance.new("TextButton", passwordFrame)
+passwordButton.Size = UDim2.new(0.8, 0, 0.2, 0)
+passwordButton.Position = UDim2.new(0.1, 0, 0.6, 0)
+passwordButton.Text = "Submit"
+passwordButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 
--- Side Tab
-local sideTab = Instance.new("Frame")
-sideTab.Parent = screenGui
-sideTab.Size = UDim2.new(0, 200, 0, 300)
-sideTab.Position = UDim2.new(1, -220, 0.5, -150)
-sideTab.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
+-- Points Adjustment Tab (Hidden Initially)
+local sideTab = Instance.new("Frame", screenGui)
+sideTab.Size = UDim2.new(0.3, 0, 1, 0)
+sideTab.Position = UDim2.new(1, 0, 0, 0)
+sideTab.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 sideTab.Visible = false
 
--- Blue "J" in the background
-local blueJ = Instance.new("TextLabel")
-blueJ.Parent = sideTab
-blueJ.Size = UDim2.new(1, 0, 1, 0)
-blueJ.Position = UDim2.new(0, 0, 0, 0)
-blueJ.Text = "J"
-blueJ.Font = Enum.Font.SourceSansBold
-blueJ.TextSize = 150
-blueJ.TextColor3 = Color3.new(0, 0.5, 1)
-blueJ.TextTransparency = 0.8
-blueJ.BackgroundTransparency = 1
+local pointsLabel = Instance.new("TextLabel", sideTab)
+pointsLabel.Size = UDim2.new(1, 0, 0.2, 0)
+pointsLabel.Text = "Set Your Points"
+pointsLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+pointsLabel.TextScaled = true
 
--- Toggle Buttons
-local buttons = {}
+local pointsInput = Instance.new("TextBox", sideTab)
+pointsInput.Size = UDim2.new(0.8, 0, 0.2, 0)
+pointsInput.Position = UDim2.new(0.1, 0, 0.3, 0)
+pointsInput.PlaceholderText = "Enter points"
+pointsInput.TextColor3 = Color3.fromRGB(0, 0, 0)
+pointsInput.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 
-local function createButton(name, position, defaultColor)
-    local button = Instance.new("TextButton")
-    button.Parent = sideTab
-    button.Size = UDim2.new(0.8, 0, 0.2, 0)
-    button.Position = UDim2.new(0.1, 0, position, 0)
-    button.Text = name
-    button.Font = Enum.Font.SourceSans
-    button.TextSize = 18
-    button.TextColor3 = Color3.new(1, 1, 1)
-    button.BackgroundColor3 = defaultColor
-    buttons[name] = button
-    return button
-end
+local setPointsButton = Instance.new("TextButton", sideTab)
+setPointsButton.Size = UDim2.new(0.8, 0, 0.2, 0)
+setPointsButton.Position = UDim2.new(0.1, 0, 0.6, 0)
+setPointsButton.Text = "Set Points"
+setPointsButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 
-local ultraInstinctButton = createButton("Ultra Instinct", 0.1, Color3.new(1, 0, 0))
-local autoLockButton = createButton("Auto Lock", 0.35, Color3.new(1, 0, 0))
-local espButton = createButton("ESP", 0.6, Color3.new(1, 0, 0))
+-- Password Validation
+local correctPassword = "password123"  -- Set your password here
 
--- Toggle Functions
-local function toggleFeature(button, feature)
-    if feature == "Ultra Instinct" then
-        ultraInstinctActive = not ultraInstinctActive
-        button.BackgroundColor3 = ultraInstinctActive and Color3.new(0, 1, 0) or Color3.new(1, 0, 0)
-    elseif feature == "Auto Lock" then
-        autoLockActive = not autoLockActive
-        button.BackgroundColor3 = autoLockActive and Color3.new(0, 1, 0) or Color3.new(1, 0, 0)
-    elseif feature == "ESP" then
-        espActive = not espActive
-        button.BackgroundColor3 = espActive and Color3.new(0, 1, 0) or Color3.new(1, 0, 0)
-        if espActive then
-            -- ESP logic
-            for _, player in pairs(Players:GetPlayers()) do
-                if player ~= LocalPlayer then
-                    local highlight = Instance.new("Highlight", player.Character or player.CharacterAdded:Wait())
-                    highlight.FillColor = Color3.new(1, 0, 0)
-                end
-            end
-        else
-            -- Remove ESP
-            for _, player in pairs(Players:GetPlayers()) do
-                if player.Character then
-                    for _, child in pairs(player.Character:GetChildren()) do
-                        if child:IsA("Highlight") then
-                           
+passwordButton.MouseButton1Click:Connect(function()
+    if passwordInput.Text == correctPassword then
+        -- Hide Password GUI and Show Points Tab
+        passwordFrame.Visible = false
+        sideTab.Visible = true
+    else
+        passwordInput.Text = ""  -- Clear input if wrong password
+        passwordInput.PlaceholderText = "Incorrect password. Try again."
+    end
+end)
+
+-- Points Set Functionality
+setPointsButton.MouseButton1Click:Connect(function()
+    local newPoints = tonumber(pointsInput.Text)
+    if newPoints and newPoints > 0 then
+        -- Assuming there’s a Points system you can adjust here
+        player.leaderstats.Points.Value = newPoints  -- Assuming Points is in leaderstats
+        pointsInput.Text = ""  -- Clear input
+        print("Points set to " .. newPoints)
+    else
+        pointsInput.Text = ""
+        pointsInput.PlaceholderText = "Enter a valid number"
+    end
+end)
