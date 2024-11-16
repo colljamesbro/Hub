@@ -41,23 +41,23 @@ sideTab.Visible = false  -- Hide the side tab initially
 
 local pointsLabel = Instance.new("TextLabel", sideTab)
 pointsLabel.Size = UDim2.new(1, 0, 0.2, 0)
-pointsLabel.Text = "Set Kills & Total Kills"
+pointsLabel.Text = "Set Diamonds & Rank"
 pointsLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 pointsLabel.TextScaled = true
 
-local killsInput = Instance.new("TextBox", sideTab)
-killsInput.Size = UDim2.new(0.8, 0, 0.2, 0)
-killsInput.Position = UDim2.new(0.1, 0, 0.3, 0)
-killsInput.PlaceholderText = "Enter Kills"
-killsInput.TextColor3 = Color3.fromRGB(0, 0, 0)
-killsInput.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+local diamondsInput = Instance.new("TextBox", sideTab)
+diamondsInput.Size = UDim2.new(0.8, 0, 0.2, 0)
+diamondsInput.Position = UDim2.new(0.1, 0, 0.3, 0)
+diamondsInput.PlaceholderText = "Enter Diamonds"
+diamondsInput.TextColor3 = Color3.fromRGB(0, 0, 0)
+diamondsInput.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 
-local totalKillsInput = Instance.new("TextBox", sideTab)
-totalKillsInput.Size = UDim2.new(0.8, 0, 0.2, 0)
-totalKillsInput.Position = UDim2.new(0.1, 0, 0.6, 0)
-totalKillsInput.PlaceholderText = "Enter Total Kills"
-totalKillsInput.TextColor3 = Color3.fromRGB(0, 0, 0)
-totalKillsInput.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+local rankInput = Instance.new("TextBox", sideTab)
+rankInput.Size = UDim2.new(0.8, 0, 0.2, 0)
+rankInput.Position = UDim2.new(0.1, 0, 0.6, 0)
+rankInput.PlaceholderText = "Enter Rank"
+rankInput.TextColor3 = Color3.fromRGB(0, 0, 0)
+rankInput.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 
 local setPointsButton = Instance.new("TextButton", sideTab)
 setPointsButton.Size = UDim2.new(0.8, 0, 0.2, 0)
@@ -84,84 +84,84 @@ end)
 
 -- Points Set Functionality
 setPointsButton.MouseButton1Click:Connect(function()
-    local kills = tonumber(killsInput.Text)
-    local totalKills = tonumber(totalKillsInput.Text)
+    local diamonds = tonumber(diamondsInput.Text)
+    local rank = tonumber(rankInput.Text)
 
-    -- Check for valid Kills input
-    if kills and kills >= 0 then
-        -- Ensure leaderstats folder exists and Kills stat exists
+    -- Check for valid Diamonds input
+    if diamonds and diamonds >= 0 then
+        -- Ensure leaderstats folder exists and Diamonds stat exists
         if player:FindFirstChild("leaderstats") then
             local leaderstats = player.leaderstats
-            local killsStat = leaderstats:FindFirstChild("Kills")
+            local diamondsStat = leaderstats:FindFirstChild("Diamonds")
 
-            if killsStat then
-                killsStat.Value = kills  -- Set the Kills
-                killsInput.Text = ""  -- Clear input
-                print("Kills set to " .. kills)
+            if diamondsStat then
+                diamondsStat.Value = diamonds  -- Set the Diamonds
+                diamondsInput.Text = ""  -- Clear input
+                print("Diamonds set to " .. diamonds)
             else
-                -- If Kills stat is missing, print an error
-                killsInput.Text = ""
-                killsInput.PlaceholderText = "No Kills stat found"
-                print("Error: No Kills stat found.")
+                -- If Diamonds stat is missing, print an error
+                diamondsInput.Text = ""
+                diamondsInput.PlaceholderText = "No Diamonds stat found"
+                print("Error: No Diamonds stat found.")
             end
         else
             -- If leaderstats is missing, print an error
-            killsInput.Text = ""
-            killsInput.PlaceholderText = "No leaderstats found"
+            diamondsInput.Text = ""
+            diamondsInput.PlaceholderText = "No leaderstats found"
             print("Error: No leaderstats found.")
         end
     else
-        killsInput.Text = ""
-        killsInput.PlaceholderText = "Enter a valid number for Kills"
-        print("Invalid Kills input.")
+        diamondsInput.Text = ""
+        diamondsInput.PlaceholderText = "Enter a valid number for Diamonds"
+        print("Invalid Diamonds input.")
     end
 
-    -- Check for valid Total Kills input
-    if totalKills and totalKills >= 0 then
-        -- Ensure Total Kills stat exists
+    -- Check for valid Rank input
+    if rank and rank >= 0 then
+        -- Ensure Rank stat exists
         if player:FindFirstChild("leaderstats") then
             local leaderstats = player.leaderstats
-            local totalKillsStat = leaderstats:FindFirstChild("Total Kills")
+            local rankStat = leaderstats:FindFirstChild("Rank")
 
-            if totalKillsStat then
-                totalKillsStat.Value = totalKills  -- Set the Total Kills
-                totalKillsInput.Text = ""  -- Clear input
-                print("Total Kills set to " .. totalKills)
+            if rankStat then
+                rankStat.Value = rank  -- Set the Rank
+                rankInput.Text = ""  -- Clear input
+                print("Rank set to " .. rank)
             else
-                -- If Total Kills stat is missing, print an error
-                totalKillsInput.Text = ""
-                totalKillsInput.PlaceholderText = "No Total Kills stat found"
-                print("Error: No Total Kills stat found.")
+                -- If Rank stat is missing, print an error
+                rankInput.Text = ""
+                rankInput.PlaceholderText = "No Rank stat found"
+                print("Error: No Rank stat found.")
             end
         else
             -- If leaderstats is missing, print an error
-            totalKillsInput.Text = ""
-            totalKillsInput.PlaceholderText = "No leaderstats found"
+            rankInput.Text = ""
+            rankInput.PlaceholderText = "No leaderstats found"
             print("Error: No leaderstats found.")
         end
     else
-        totalKillsInput.Text = ""
-        totalKillsInput.PlaceholderText = "Enter a valid number for Total Kills"
-        print("Invalid Total Kills input.")
+        rankInput.Text = ""
+        rankInput.PlaceholderText = "Enter a valid number for Rank"
+        print("Invalid Rank input.")
     end
 end)
 
--- Ensure leaderstats and Kills & Total Kills are created for the player when they join
+-- Ensure leaderstats and Diamonds & Rank are created for the player when they join
 game.Players.PlayerAdded:Connect(function(player)
     -- Create leaderstats folder for the player
     local leaderstats = Instance.new("Folder")
     leaderstats.Name = "leaderstats"
     leaderstats.Parent = player
 
-    -- Create the Kills stat
-    local kills = Instance.new("IntValue")
-    kills.Name = "Kills"
-    kills.Value = 0  -- Default Kills, you can set this to any value
-    kills.Parent = leaderstats
+    -- Create the Diamonds stat
+    local diamonds = Instance.new("IntValue")
+    diamonds.Name = "Diamonds"
+    diamonds.Value = 0  -- Default Diamonds, you can set this to any value
+    diamonds.Parent = leaderstats
 
-    -- Create the Total Kills stat
-    local totalKills = Instance.new("IntValue")
-    totalKills.Name = "Total Kills"
-    totalKills.Value = 0  -- Default Total Kills, you can set this to any value
-    totalKills.Parent = leaderstats
+    -- Create the Rank stat
+    local rank = Instance.new("IntValue")
+    rank.Name = "Rank"
+    rank.Value = 0  -- Default Rank, you can set this to any value
+    rank.Parent = leaderstats
 end)
